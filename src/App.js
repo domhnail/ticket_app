@@ -26,13 +26,11 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/tickets', { // change to actual endpoint
+      const res = await fetch(process.env.REACT_APP_API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      });
+      });      
 
       if (!res.ok) throw new Error('something broke, bro');
 
