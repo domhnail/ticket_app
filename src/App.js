@@ -1,23 +1,65 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [formData, setFormData] = useState({
+    concertId: '',
+    email: '',
+    name: '',
+    phone: '',
+    quantity: '',
+    creditCard: '',
+    expiration: '',
+    securityCode: '',
+    address: '',
+    city: '',
+    province: '',
+    postalCode: '',
+    country: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:5000/api/tickets', { // change to actual endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('something broke, bro');
+
+      alert('ticket submitted, ya dork');
+    } catch (err) {
+      console.error(err);
+      alert('error submitting ticket, nice job');
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Concert Ticket Form</h1>
+      <form onSubmit={handleSubmit}>
+        {Object.keys(formData).map((key) => (
+          <div key={key}>
+            <label>{key}</label><br />
+            <input
+              type="text"
+              name={key}
+              value={formData[key]}
+              onChange={handleChange}
+            /><br /><br />
+          </div>
+        ))}
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
