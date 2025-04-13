@@ -17,6 +17,7 @@ function App() {
     postalCode: '',
     country: '',
   });
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const [modal, setModal] = useState({ show: false, type: '', message: '' });
 
@@ -28,23 +29,23 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(process.env.REACT_APP_API_URL, {
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      console.log('API URL:', process.env.REACT_APP_API_URL);
+      console.log('API URL:', apiUrl);
       if (!res.ok) throw new Error('Failed request');
-      console.log('API URL:', process.env.REACT_APP_API_URL);
+      console.log('API URL:', apiUrl);
       setModal({ show: true, type: 'success', message: 'Ticket submitted.'});
     } catch (err) {
       console.error(err);
-      console.log('API URL:', process.env.REACT_APP_API_URL);
+      console.log('API URL:', apiUrl);
 
       setModal({ show: true, type: 'error', message: 'Error.' });
     }
   };
-  console.log('API URL:', process.env.REACT_APP_API_URL);
+  console.log('API URL:', apiUrl);
 
   const closeModal = () => setModal({ show: false, type: '', message: '' });
 
