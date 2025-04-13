@@ -33,15 +33,18 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+      console.log('API URL:', process.env.REACT_APP_API_URL);
       if (!res.ok) throw new Error('Failed request');
-
+      console.log('API URL:', process.env.REACT_APP_API_URL);
       setModal({ show: true, type: 'success', message: 'Ticket submitted.'});
     } catch (err) {
       console.error(err);
+      console.log('API URL:', process.env.REACT_APP_API_URL);
+
       setModal({ show: true, type: 'error', message: 'Error.' });
     }
   };
+  console.log('API URL:', process.env.REACT_APP_API_URL);
 
   const closeModal = () => setModal({ show: false, type: '', message: '' });
 
