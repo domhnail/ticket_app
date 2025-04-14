@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [formData, setFormData] = useState({
-    concertId: '',
+    concertId: '0', // default to first option
     name: '',
     email: '',
     phone: '',
@@ -17,6 +17,7 @@ function App() {
     postalCode: '',
     country: '',
   });
+
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const [modal, setModal] = useState({ show: false, type: '', message: '' });
@@ -36,25 +37,42 @@ function App() {
       });
       console.log('API URL:', apiUrl);
       if (!res.ok) throw new Error('Failed request');
-      console.log('API URL:', apiUrl);
-      setModal({ show: true, type: 'success', message: 'Ticket submitted.'});
+      setModal({ show: true, type: 'success', message: 'Ticket submitted.' });
     } catch (err) {
       console.error(err);
-      console.log('API URL:', apiUrl);
-
-      setModal({ show: true, type: 'error', message: 'Error.' });
+      setModal({ show: true, type: 'error', message: 'Error submitting ticket.' });
     }
   };
-  console.log('API URL:', apiUrl);
 
   const closeModal = () => setModal({ show: false, type: '', message: '' });
 
   return (
     <div className="App">
-      <h1>Concert Ticket Form</h1>
+      <header className="concert-header">
+        <h1>🎸 Live Concert Tickets</h1>
+        <p>Select your show and grab your seat before they’re gone!</p>
+      </header>
+
+      <section className="concert-info">
+        <div className="band">
+          <h2>BADBADNOTGOOD</h2>
+          <p>Genre-bending jazz & hip-hop fusion straight from Toronto.</p>
+        </div>
+        <div className="band">
+          <h2>American Football</h2>
+          <p>Emo legends here to make you cry in 5/4 time.</p>
+        </div>
+      </section>
+
       <form className="form-grid" onSubmit={handleSubmit}>
         <div className="form-column">
-          <FormInput label="concertId" value={formData.concertId} onChange={handleChange} />
+          <div className="form-field">
+            <label htmlFor="concertId">Concert</label>
+            <select name="concertId" id="concertId" value={formData.concertId} onChange={handleChange}>
+              <option value="0">BADBADNOTGOOD</option>
+              <option value="1">American Football</option>
+            </select>
+          </div>
           <FormInput label="name" value={formData.name} onChange={handleChange} />
           <FormInput label="email" value={formData.email} onChange={handleChange} />
           <FormInput label="phone" value={formData.phone} onChange={handleChange} />
